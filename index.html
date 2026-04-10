@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>棱镜人格实验室</title>
+  <meta
+    name="description"
+    content="一个原创的随机抽题人格测试：100 题题库，每次随机 30 题，生成带维度剖面的趣味人格结果。"
+  />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <section id="introScreen" class="screen active">
+      <div class="hero card">
+        <div class="hero-copy">
+          <div class="eyebrow">棱镜人格实验室</div>
+          <h1>每个人都不是一种颜色，而是一束被生活打散过的光。</h1>
+          <p class="hero-text">
+            这是一个原创的趣味人格测试。题库总量 100 题，每次只会随机抽取 30 题，
+            从 10 个维度切一轮剖面，再把你送进一组全新的角色原型里。
+          </p>
+          <div class="hero-actions">
+            <button id="startBtn" class="btn btn-primary">开始测试</button>
+            <button id="rerollBtn" class="btn btn-secondary">重新抽一套题</button>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="hero-note">
+            <strong>玩法说明</strong>
+            <ul>
+              <li>题库 100 题，每次随机抽 30 题</li>
+              <li>覆盖 10 个维度，每个维度抽 3 题</li>
+              <li>结果含人格画像、维度解释、前三匹配</li>
+            </ul>
+          </div>
+          <div class="hero-grid">
+            <div class="mini-stat">
+              <span>题库总量</span>
+              <strong>100</strong>
+            </div>
+            <div class="mini-stat">
+              <span>单次作答</span>
+              <strong>30</strong>
+            </div>
+            <div class="mini-stat">
+              <span>维度数量</span>
+              <strong>10</strong>
+            </div>
+            <div class="mini-stat">
+              <span>人格原型</span>
+              <strong>17</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="testScreen" class="screen">
+      <div class="card panel">
+        <div class="panel-head">
+          <div>
+            <div class="eyebrow">测试进行中</div>
+            <h2>把每一道题当成一面小镜子。</h2>
+          </div>
+          <button id="backBtn" class="btn btn-ghost">返回首页</button>
+        </div>
+
+        <div class="progress-block">
+          <div class="progress-bar">
+            <span id="progressBar"></span>
+          </div>
+          <div class="progress-meta">
+            <span id="progressText">0 / 30</span>
+            <span id="hintText">题做完之前，系统暂时不发表人生意见。</span>
+          </div>
+        </div>
+
+        <div id="questionList" class="question-list"></div>
+
+        <div class="actions-bottom">
+          <p class="small-note">
+            每次重新开始都会从同一套 100 题里重新抽题，所以结果可能不完全一样。
+          </p>
+          <button id="submitBtn" class="btn btn-primary" disabled>查看结果</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="card panel result-panel">
+        <div class="panel-head">
+          <div>
+            <div class="eyebrow">结果页</div>
+            <h2>你的这束光，照出来是这样的。</h2>
+          </div>
+          <div class="result-actions-top">
+            <button id="restartBtn" class="btn btn-secondary">再测一次</button>
+            <button id="homeBtn" class="btn btn-ghost">回到首页</button>
+          </div>
+        </div>
+
+        <div class="result-layout">
+          <div class="result-main card-soft">
+            <div class="result-main-top">
+              <div id="typePoster" class="type-poster">
+                <div class="type-poster-kicker">PRISM TYPE</div>
+                <div id="typePosterCode" class="type-poster-code">ANCHOR</div>
+              </div>
+              <div class="type-copy">
+                <div id="typeMode" class="result-kicker">你的当前主类型</div>
+                <h3 id="typeName" class="type-name">ANCHOR 稳盘者</h3>
+                <p id="typeIntro" class="type-intro"></p>
+                <div id="typeBadge" class="match-badge"></div>
+              </div>
+            </div>
+            <p id="typeDesc" class="type-desc"></p>
+            <div class="type-traits">
+              <article class="trait-box">
+                <h4>你最像什么</h4>
+                <p id="typeStrength"></p>
+              </article>
+              <article class="trait-box">
+                <h4>容易偏到哪里</h4>
+                <p id="typeShadow"></p>
+              </article>
+              <article class="trait-box">
+                <h4>给你的建议</h4>
+                <p id="typeAdvice"></p>
+              </article>
+            </div>
+          </div>
+
+          <div class="result-side">
+            <div class="card-soft side-box">
+              <h3>这一轮的轮廓</h3>
+              <p id="signatureText" class="signature-text"></p>
+              <div id="vectorText" class="vector-text"></div>
+            </div>
+
+            <div class="card-soft side-box">
+              <h3>前三匹配</h3>
+              <div id="topMatches" class="top-matches"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-soft dims-box">
+          <div class="dims-head">
+            <h3>10 维剖面</h3>
+            <p>每个维度由 3 道随机题组成，分成 L / M / H 三档。</p>
+          </div>
+          <div id="dimensionGrid" class="dimension-grid"></div>
+        </div>
+
+        <p class="footer-note">
+          本测试为原创娱乐内容，不构成心理诊断、招聘判断、择偶建议或命运裁决。
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
